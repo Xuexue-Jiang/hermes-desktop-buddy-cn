@@ -32,4 +32,10 @@ describe("app locale persistence", () => {
 
     expect(secondRun.getAppLocale()).toBe("es");
   });
+
+  it("uses Simplified Chinese when no locale is saved", async () => {
+    const firstRun = await loadLocaleModule();
+
+    expect(firstRun.getAppLocale()).toBe("zh-CN");
+  });
 });

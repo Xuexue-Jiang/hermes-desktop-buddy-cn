@@ -21,4 +21,30 @@ export default {
   connect: "Connect",
   remoteHint:
     "Leave the key empty if the server accepts unauthenticated requests (e.g. via SSH tunnel to localhost).",
+  connectSsh: "Connect via SSH",
+  connectSshTitle: "Connect via SSH",
+  connectSshSubtitle:
+    "Tunnel to a remote Hermes over SSH — no exposed ports or API keys needed.",
+  sshHost: "SSH Host",
+  sshHostPlaceholder: "192.168.1.100 or myserver.local",
+  sshPort: "SSH Port",
+  sshUser: "Username",
+  sshKeyPath: "Private Key Path",
+  sshKeyOptional: "optional — defaults to ~/.ssh/id_rsa",
+  sshRemotePort: "Remote Hermes Port",
+  sshRemotePortDefault: "default 8642",
+  testingSshConnection: "Testing SSH connection...",
+  sshHintBeforeCommand: "Uses your system SSH. Make sure you can already run",
+  sshHintAfterCommand: "without a password prompt.",
+  remoteUrlRequired: "Please enter a URL.",
+  remoteUnreachable:
+    "Could not reach Hermes at this URL. Check the URL and API key.\n\nLeave the key empty if the server accepts unauthenticated requests (e.g. via SSH tunnel to localhost).",
+  remoteConnectionFailed: "Connection test failed.",
+  sshRequired: "Host and username are required.",
+  sshUnreachable:
+    "Could not connect via SSH or reach Hermes on the remote. Make sure:\n• SSH key is correct (or default ~/.ssh/id_rsa works)\n• Hermes gateway is running on the remote\n• The remote port is correct (default 8642)",
+  sshConnectionFailed: "SSH connection test failed: {{message}}",
+  sshTunnelFailed: "SSH tunnel failed to start: {{message}}",
+  savedRemoteUnreachable:
+    "Cannot reach remote Hermes at {{url}}. Check the URL or switch to local mode.",
 } as const;

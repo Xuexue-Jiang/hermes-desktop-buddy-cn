@@ -18,7 +18,7 @@ function Setup({
   onDismissVerifyWarning,
 }: SetupProps): React.JSX.Element {
   const { t } = useI18n();
-  const [selectedProvider, setSelectedProvider] = useState("openrouter");
+  const [selectedProvider, setSelectedProvider] = useState("deepseek");
   const [apiKey, setApiKey] = useState("");
   const [baseUrl, setBaseUrl] = useState("http://localhost:1234/v1");
   const [modelName, setModelName] = useState("");
@@ -42,6 +42,11 @@ function Setup({
     if (/huggingface\.co/i.test(url)) return "HF_TOKEN";
     if (/api\.groq\.com/i.test(url)) return "GROQ_API_KEY";
     if (/api\.deepseek\.com/i.test(url)) return "DEEPSEEK_API_KEY";
+    if (/dashscope(-intl)?\.aliyuncs\.com/i.test(url)) return "QWEN_API_KEY";
+    if (/api\.moonshot\.cn/i.test(url)) return "KIMI_API_KEY";
+    if (/api\.z\.ai|bigmodel\.cn/i.test(url)) return "GLM_API_KEY";
+    if (/api\.minimaxi\.com/i.test(url)) return "MINIMAX_CN_API_KEY";
+    if (/api\.minimax\.chat/i.test(url)) return "MINIMAX_API_KEY";
     if (/api\.together\.xyz/i.test(url)) return "TOGETHER_API_KEY";
     if (/api\.fireworks\.ai/i.test(url)) return "FIREWORKS_API_KEY";
     if (/api\.cerebras\.ai/i.test(url)) return "CEREBRAS_API_KEY";

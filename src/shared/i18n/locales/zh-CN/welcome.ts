@@ -15,9 +15,35 @@ export default {
   connectRemoteSubtitle: "输入运行中的 Hermes API 服务器的 URL。",
   remoteServerUrl: "服务器 URL",
   remoteApiKey: "API 密钥（可选）",
-  remoteApiKeyPlaceholder: "Bearer token (API_SERVER_KEY)",
+  remoteApiKeyPlaceholder: "Bearer 令牌 (API_SERVER_KEY)",
   testingConnection: "测试连接中...",
   connect: "连接",
   remoteHint:
     "如果服务器接受未认证的请求（如通过 SSH 隧道到 localhost），请留空密钥。",
+  connectSsh: "通过 SSH 连接",
+  connectSshTitle: "通过 SSH 连接",
+  connectSshSubtitle:
+    "通过 SSH 隧道连接远程 Hermes，无需开放端口或额外 API 密钥。",
+  sshHost: "SSH 主机",
+  sshHostPlaceholder: "192.168.1.100 或 myserver.local",
+  sshPort: "SSH 端口",
+  sshUser: "用户名",
+  sshKeyPath: "私钥路径",
+  sshKeyOptional: "可选，默认使用 ~/.ssh/id_rsa",
+  sshRemotePort: "远程 Hermes 端口",
+  sshRemotePortDefault: "默认 8642",
+  testingSshConnection: "正在测试 SSH 连接...",
+  sshHintBeforeCommand: "使用系统 SSH。请先确认可以免密运行",
+  sshHintAfterCommand: "。",
+  remoteUrlRequired: "请输入服务器 URL。",
+  remoteUnreachable:
+    "无法访问该 Hermes 地址。请检查 URL 和 API 密钥。\n\n如果服务器接受未认证请求（例如通过 SSH 隧道连接 localhost），请留空密钥。",
+  remoteConnectionFailed: "连接测试失败。",
+  sshRequired: "请填写主机和用户名。",
+  sshUnreachable:
+    "无法通过 SSH 连接或访问远程 Hermes。请确认：\n• SSH 私钥正确（或默认 ~/.ssh/id_rsa 可用）\n• 远程 Hermes gateway 正在运行\n• 远程端口正确（默认 8642）",
+  sshConnectionFailed: "SSH 连接测试失败：{{message}}",
+  sshTunnelFailed: "SSH 隧道启动失败：{{message}}",
+  savedRemoteUnreachable:
+    "无法访问远程 Hermes：{{url}}。请检查 URL，或切换到本地模式。",
 } as const;
