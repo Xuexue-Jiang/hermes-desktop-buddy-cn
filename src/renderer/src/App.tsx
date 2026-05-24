@@ -7,6 +7,7 @@ import Setup from "./screens/Setup/Setup";
 import Layout from "./screens/Layout/Layout";
 import SplashScreen from "./screens/SplashScreen/SplashScreen";
 import { useI18n } from "./components/useI18n";
+import { captureScreenView } from "./utils/analytics";
 
 type Screen = "splash" | "welcome" | "installing" | "setup" | "main";
 
@@ -105,6 +106,11 @@ function App(): React.JSX.Element {
     runInstallCheck();
   }, [runInstallCheck]);
 
+  // Track screen views for analytics
+  useEffect(() => {
+    captureScreenView(screen);
+  }, [screen]);
+
   const handleSplashFinished = useCallback(() => {
     /* splash transition is driven by the install check, not a timer */
   }, []);
@@ -165,6 +171,7 @@ function App(): React.JSX.Element {
           <Install
             onComplete={handleInstallComplete}
             onFailed={handleInstallFailed}
+            onCancel={() => setScreen("welcome")}
           />
         );
       case "setup":
