@@ -29,6 +29,8 @@ describe("expectedEnvKeyForModel — provider-name lookup", () => {
     ["huggingface", "HF_TOKEN"], // exception to the *_API_KEY convention
     ["qwen", "QWEN_API_KEY"],
     ["minimax", "MINIMAX_API_KEY"],
+    ["minimax-cn", "MINIMAX_CN_API_KEY"],
+    ["zai", "GLM_API_KEY"],
     ["glm", "GLM_API_KEY"],
     ["kimi", "KIMI_API_KEY"],
   ])("maps provider %s → %s", (provider, expected) => {
@@ -50,6 +52,21 @@ describe("expectedEnvKeyForModel — URL fallback for custom/auto providers", ()
     expect(
       expectedEnvKeyForModel("custom", "https://api.deepseek.com/v1"),
     ).toBe("DEEPSEEK_API_KEY");
+    expect(
+      expectedEnvKeyForModel(
+        "custom",
+        "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      ),
+    ).toBe("QWEN_API_KEY");
+    expect(expectedEnvKeyForModel("custom", "https://api.moonshot.cn/v1")).toBe(
+      "KIMI_API_KEY",
+    );
+    expect(
+      expectedEnvKeyForModel("custom", "https://api.z.ai/api/paas/v4"),
+    ).toBe("GLM_API_KEY");
+    expect(
+      expectedEnvKeyForModel("custom", "https://api.minimaxi.com/v1"),
+    ).toBe("MINIMAX_CN_API_KEY");
     expect(
       expectedEnvKeyForModel("custom", "https://api.groq.com/openai/v1"),
     ).toBe("GROQ_API_KEY");

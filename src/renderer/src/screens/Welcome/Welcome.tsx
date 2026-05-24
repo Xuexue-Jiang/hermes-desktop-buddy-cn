@@ -50,7 +50,7 @@ function Welcome({
     const url = remoteUrl.trim();
     const key = remoteApiKey.trim();
     if (!url) {
-      setRemoteError("Please enter a URL.");
+      setRemoteError(t("welcome.remoteUrlRequired"));
       return;
     }
     setRemoteTesting(true);
@@ -61,12 +61,10 @@ function Welcome({
         await window.hermesAPI.setConnectionConfig("remote", url, key);
         onRecheck();
       } else {
-        setRemoteError(
-          "Could not reach Hermes at this URL. Check the URL and API key.\n\nLeave the key empty if the server accepts unauthenticated requests (e.g. via SSH tunnel to localhost).",
-        );
+        setRemoteError(t("welcome.remoteUnreachable"));
       }
     } catch {
-      setRemoteError("Connection test failed.");
+      setRemoteError(t("welcome.remoteConnectionFailed"));
     } finally {
       setRemoteTesting(false);
     }
@@ -76,7 +74,7 @@ function Welcome({
     const host = sshHost.trim();
     const user = sshUser.trim();
     if (!host || !user) {
-      setSshError("Host and username are required.");
+      setSshError(t("welcome.sshRequired"));
       return;
     }
     const port = parseInt(sshPort, 10) || 22;
@@ -102,12 +100,12 @@ function Welcome({
         );
         onRecheck();
       } else {
-        setSshError(
-          "Could not connect via SSH or reach Hermes on the remote. Make sure:\n• SSH key is correct (or default ~/.ssh/id_rsa works)\n• Hermes gateway is running on the remote\n• The remote port is correct (default 8642)",
-        );
+        setSshError(t("welcome.sshUnreachable"));
       }
     } catch (e) {
-      setSshError("SSH connection test failed: " + (e as Error).message);
+      setSshError(
+        t("welcome.sshConnectionFailed", { message: (e as Error).message }),
+      );
     } finally {
       setSshTesting(false);
     }
@@ -198,28 +196,31 @@ function Welcome({
       <div className="screen welcome-screen">
         <HermesLogo size={36} />
         <h1 className="welcome-title" style={{ fontSize: 22 }}>
-          Connect via SSH
+          {t("welcome.connectSshTitle")}
         </h1>
         <p className="welcome-subtitle" style={{ marginBottom: 24 }}>
-          Tunnel to a remote Hermes over SSH — no exposed ports or API keys
-          needed.
+          {t("welcome.connectSshSubtitle")}
         </p>
 
         <div className="welcome-remote-card">
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 3 }}>
-              <label className="welcome-remote-label">SSH Host</label>
+              <label className="welcome-remote-label">
+                {t("welcome.sshHost")}
+              </label>
               <input
                 type="text"
                 className="welcome-remote-input"
-                placeholder="192.168.1.100 or myserver.local"
+                placeholder={t("welcome.sshHostPlaceholder")}
                 value={sshHost}
                 onChange={(e) => setSshHost(e.target.value)}
                 autoFocus
               />
             </div>
             <div style={{ flex: 1 }}>
-              <label className="welcome-remote-label">SSH Port</label>
+              <label className="welcome-remote-label">
+                {t("welcome.sshPort")}
+              </label>
               <input
                 type="number"
                 className="welcome-remote-input"
@@ -231,7 +232,7 @@ function Welcome({
           </div>
 
           <label className="welcome-remote-label" style={{ marginTop: 12 }}>
-            Username
+            {t("welcome.sshUser")}
           </label>
           <input
             type="text"
@@ -242,9 +243,9 @@ function Welcome({
           />
 
           <label className="welcome-remote-label" style={{ marginTop: 12 }}>
-            Private Key Path{" "}
+            {t("welcome.sshKeyPath")}{" "}
             <span style={{ fontWeight: 400, opacity: 0.6 }}>
-              (optional — defaults to ~/.ssh/id_rsa)
+              ({t("welcome.sshKeyOptional")})
             </span>
           </label>
           <input
@@ -256,9 +257,9 @@ function Welcome({
           />
 
           <label className="welcome-remote-label" style={{ marginTop: 12 }}>
-            Remote Hermes Port{" "}
+            {t("welcome.sshRemotePort")}{" "}
             <span style={{ fontWeight: 400, opacity: 0.6 }}>
-              (default 8642)
+              ({t("welcome.sshRemotePortDefault")})
             </span>
           </label>
           <input
@@ -278,12 +279,12 @@ function Welcome({
             >
               {sshTesting ? (
                 <>
-                  Testing SSH connection…
+                  {t("welcome.testingSshConnection")}
                   <Spinner size={14} className="animate-spin" />
                 </>
               ) : (
                 <>
-                  Connect via SSH
+                  {t("welcome.connectSsh")}
                   <ArrowRight size={16} />
                 </>
               )}
@@ -300,11 +301,11 @@ function Welcome({
           )}
 
           <p className="welcome-remote-hint">
-            Uses your system SSH. Make sure you can already run{" "}
+            {t("welcome.sshHintBeforeCommand")}{" "}
             <code style={{ fontFamily: "monospace", fontSize: 12 }}>
               ssh {sshUser || "user"}@{sshHost || "host"}
             </code>{" "}
-            without a password prompt.
+            {t("welcome.sshHintAfterCommand")}
           </p>
         </div>
 
@@ -369,21 +370,21 @@ function Welcome({
               </button>
             )}
             <div className="welcome-divider">
-              <span>or</span>
+              <span>{t("welcome.dividerOr")}</span>
             </div>
             <button
               className="btn btn-secondary welcome-recheck-btn"
               onClick={() => setPanel("ssh")}
             >
               <KeyRound size={16} />
-              Connect via SSH
+              {t("welcome.connectSsh")}
             </button>{" "}
             <button
               className="btn btn-secondary welcome-recheck-btn "
               onClick={() => setPanel("remote")}
             >
               <Globe size={16} />
-              Connect to Remote Hermes
+              {t("welcome.connectRemote")}
             </button>
           </div>
         </>
@@ -406,7 +407,7 @@ function Welcome({
             onClick={() => setPanel("ssh")}
           >
             <KeyRound size={16} />
-            Connect via SSH
+            {t("welcome.connectSsh")}
           </button>
 
           <button

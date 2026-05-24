@@ -6,6 +6,7 @@ import Install from "./screens/Install/Install";
 import Setup from "./screens/Setup/Setup";
 import Layout from "./screens/Layout/Layout";
 import SplashScreen from "./screens/SplashScreen/SplashScreen";
+import { useI18n } from "./components/useI18n";
 import { captureScreenView } from "./utils/analytics";
 
 type Screen = "splash" | "welcome" | "installing" | "setup" | "main";
@@ -15,6 +16,7 @@ type Screen = "splash" | "welcome" | "installing" | "setup" | "main";
 const SPLASH_MIN_MS = 1300;
 
 function App(): React.JSX.Element {
+  const { t } = useI18n();
   const [screen, setScreen] = useState<Screen>("splash");
   const [installError, setInstallError] = useState<string | null>(null);
   const [connectionMode, setConnectionMode] = useState<
@@ -45,7 +47,9 @@ function App(): React.JSX.Element {
           await window.hermesAPI.startSshTunnel();
           next = "main";
         } catch (tunnelErr) {
-          error = `SSH tunnel failed to start: ${(tunnelErr as Error).message}`;
+          error = t("welcome.sshTunnelFailed", {
+            message: (tunnelErr as Error).message,
+          });
           next = "welcome";
         }
       } else if (conn.mode === "remote" && conn.remoteUrl) {
@@ -53,7 +57,9 @@ function App(): React.JSX.Element {
         if (ok) {
           next = "main";
         } else {
-          error = `Cannot reach remote Hermes at ${conn.remoteUrl}. Check the URL or switch to local mode.`;
+          error = t("welcome.savedRemoteUnreachable", {
+            url: conn.remoteUrl,
+          });
           next = "welcome";
         }
       } else {
@@ -94,7 +100,7 @@ function App(): React.JSX.Element {
         if (!ok) setVerifyWarning(true);
       });
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     runInstallCheck();

@@ -48,6 +48,16 @@ describe("PROVIDERS", () => {
     }
   });
 
+  it("prioritizes China-friendly setup providers", () => {
+    expect(PROVIDERS.setup.slice(0, 5).map((entry) => entry.id)).toEqual([
+      "deepseek",
+      "qwen",
+      "kimi",
+      "zai",
+      "minimax-cn",
+    ]);
+  });
+
   it("setup entries that need a key have envKey and url", () => {
     for (const entry of PROVIDERS.setup) {
       if (entry.needsKey) {
